@@ -55,6 +55,7 @@ const Index = () => {
   const [songs, setSongs] = useState(sampleSongs);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleLoginStatusChange = (isLoggedIn: boolean, username?: string) => {
     setUserLoggedIn(isLoggedIn);
@@ -78,9 +79,13 @@ const Index = () => {
   };
 
   const handleSearch = (query: string) => {
-    console.log("Searching for:", query);
-    // Here you would implement actual search functionality
+    setSearchQuery(query);
   };
+
+  const filteredSongs = songs.filter(song =>
+    song.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    song.artist.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-background pb-24">
@@ -131,16 +136,16 @@ const Index = () => {
             {/* Featured Songs */}
             <section>
               <h3 className="text-2xl font-semibold mb-6 text-foreground">Trending Now 🔥</h3>
-              <div className="grid gap-4">
-                {songs.map((song) => (
-                  <SongCard
-                    key={song.id}
-                    song={song}
-                    onPlay={handlePlaySong}
-                    onTogglePlayPause={handleTogglePlayPause}
-                  />
-                ))}
-              </div>
+               <div className="grid gap-4">
+                 {(searchQuery ? filteredSongs : songs).map((song) => (
+                   <SongCard
+                     key={song.id}
+                     song={song}
+                     onPlay={handlePlaySong}
+                     onTogglePlayPause={handleTogglePlayPause}
+                   />
+                 ))}
+               </div>
             </section>
 
             {/* Quick Playlists */}
