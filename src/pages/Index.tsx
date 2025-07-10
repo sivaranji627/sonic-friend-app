@@ -12,8 +12,8 @@ import heroImage from "@/assets/hero-music.jpg";
 const sampleSongs = [
   {
     id: "1",
-    title: "Song One",
-    artist: "G.V.Prakash, Dhanush",
+    title: "Golden Sparrow",
+    artist: "G.V. Prakash, Dhanush",
     duration: 240,
     albumArt: undefined,
     isPlaying: false,
@@ -21,7 +21,7 @@ const sampleSongs = [
   },
   {
     id: "2", 
-    title: "Song Two",
+    title: "Thodu Vaanam",
     artist: "Harris Jayaraj",
     duration: 220,
     albumArt: undefined,
