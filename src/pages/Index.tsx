@@ -12,35 +12,21 @@ import heroImage from "@/assets/hero-music.jpg";
 const sampleSongs = [
   {
     id: "1",
-    title: "Sunset Dreams",
-    artist: "Luna Waves",
-    duration: 245,
+    title: "Song One",
+    artist: "G.V.Prakash, Dhanush",
+    duration: 240,
     albumArt: undefined,
-    isPlaying: false
+    isPlaying: false,
+    src: "https://drive.google.com/uc?export=download&id=1-g1Bn1-YFbzQzlX-1jPzwcu2alJlvgbP"
   },
   {
     id: "2", 
-    title: "Electric Nights",
-    artist: "Neon Sky",
-    duration: 198,
+    title: "Song Two",
+    artist: "Harris Jayaraj",
+    duration: 220,
     albumArt: undefined,
-    isPlaying: false
-  },
-  {
-    id: "3",
-    title: "Ocean Breeze",
-    artist: "Coastal Vibes",
-    duration: 212,
-    albumArt: undefined,
-    isPlaying: false
-  },
-  {
-    id: "4",
-    title: "City Lights",
-    artist: "Urban Echo",
-    duration: 267,
-    albumArt: undefined,
-    isPlaying: false
+    isPlaying: false,
+    src: "https://drive.google.com/uc?export=download&id=11QtqWOUJKc1WNo23Ec7oqrzTnhJaJRmo"
   }
 ];
 
