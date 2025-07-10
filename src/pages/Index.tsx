@@ -3,7 +3,6 @@ import { SearchBar } from "@/components/SearchBar";
 import { MusicPlayer } from "@/components/MusicPlayer";
 import { SongCard } from "@/components/SongCard";
 import { Playlist } from "@/components/Playlist";
-import { UserLogin } from "@/components/UserLogin";
 import { AIAssistant } from "@/components/AIAssistant";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -90,7 +89,11 @@ const Index = () => {
             
             <SearchBar onSearch={handleSearch} />
             
-            <UserLogin />
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-gradient-secondary flex items-center justify-center">
+                <span className="text-sm font-medium text-secondary-foreground">👤</span>
+              </div>
+            </div>
           </div>
         </div>
       </header>
