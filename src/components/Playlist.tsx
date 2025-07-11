@@ -65,19 +65,19 @@ export const Playlist = ({
 
   if (isCompact) {
     return (
-      <Card className="p-4 shadow-card hover:shadow-glow transition-smooth">
-        <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-lg bg-gradient-primary flex-shrink-0 flex items-center justify-center overflow-hidden">
+      <Card className="p-3 sm:p-4 shadow-card hover:shadow-glow transition-smooth">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg bg-gradient-primary flex-shrink-0 flex items-center justify-center overflow-hidden">
             {coverImage ? (
               <img src={coverImage} alt={title} className="w-full h-full object-cover" />
             ) : (
-              <Music className="h-8 w-8 text-primary-foreground" />
+              <Music className="h-6 w-6 sm:h-8 sm:w-8 text-primary-foreground" />
             )}
           </div>
           
           <div className="flex-1 min-w-0">
-            <h3 className="font-medium text-foreground truncate">{title}</h3>
-            <p className="text-sm text-muted-foreground">
+            <h3 className="font-medium text-sm sm:text-base text-foreground truncate">{title}</h3>
+            <p className="text-xs sm:text-sm text-muted-foreground">
               {songs.length} songs • {formatTotalDuration(calculateTotalDuration())}
             </p>
           </div>
@@ -87,7 +87,7 @@ export const Playlist = ({
             size="sm"
             className="bg-gradient-primary hover:bg-primary/90 rounded-full"
           >
-            {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 ml-0.5" />}
+            {isPlaying ? <Pause className="h-3 w-3 sm:h-4 sm:w-4" /> : <Play className="h-3 w-3 sm:h-4 sm:w-4 ml-0.5" />}
           </Button>
         </div>
       </Card>
@@ -95,54 +95,54 @@ export const Playlist = ({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Playlist Header */}
-      <div className="flex items-end gap-6 p-6 bg-gradient-card rounded-lg shadow-card">
-        <div className="w-48 h-48 rounded-lg bg-gradient-primary flex-shrink-0 flex items-center justify-center overflow-hidden shadow-glow">
+      <div className="flex flex-col sm:flex-row items-start sm:items-end gap-4 sm:gap-6 p-4 sm:p-6 bg-gradient-card rounded-lg shadow-card">
+        <div className="w-32 h-32 sm:w-48 sm:h-48 rounded-lg bg-gradient-primary flex-shrink-0 flex items-center justify-center overflow-hidden shadow-glow mx-auto sm:mx-0">
           {coverImage ? (
             <img src={coverImage} alt={title} className="w-full h-full object-cover" />
           ) : (
-            <Music className="h-20 w-20 text-primary-foreground" />
+            <Music className="h-12 w-12 sm:h-20 sm:w-20 text-primary-foreground" />
           )}
         </div>
         
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4 text-center sm:text-left">
           <div>
-            <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Playlist</p>
-            <h1 className="text-4xl font-bold text-foreground mt-2">{title}</h1>
+            <p className="text-xs sm:text-sm font-medium text-muted-foreground uppercase tracking-wide">Playlist</p>
+            <h1 className="text-2xl sm:text-4xl font-bold text-foreground mt-1 sm:mt-2">{title}</h1>
           </div>
           
-          <div className="flex items-center gap-4 text-sm text-muted-foreground">
+          <div className="flex items-center justify-center sm:justify-start gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground">
             <span>{songs.length} songs</span>
             <span>•</span>
             <span>{formatTotalDuration(calculateTotalDuration())}</span>
           </div>
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center justify-center sm:justify-start gap-2 sm:gap-4">
             <Button
               onClick={handlePlayAll}
-              size="lg"
-              className="bg-gradient-primary hover:bg-primary/90 rounded-full px-8 shadow-glow transition-bounce"
+              size="default"
+              className="bg-gradient-primary hover:bg-primary/90 rounded-full px-6 sm:px-8 shadow-glow transition-bounce"
             >
-              {isPlaying ? <Pause className="h-5 w-5 mr-2" /> : <Play className="h-5 w-5 mr-2 ml-0.5" />}
+              {isPlaying ? <Pause className="h-4 w-4 sm:h-5 sm:w-5 mr-2" /> : <Play className="h-4 w-4 sm:h-5 sm:w-5 mr-2 ml-0.5" />}
               {isPlaying ? 'Pause' : 'Play'}
             </Button>
             
             <Button
               variant="ghost"
-              size="lg"
+              size="default"
               onClick={() => onLikePlaylist?.(title)}
               className="rounded-full"
             >
-              <Heart className={`h-6 w-6 ${isPlaylistLiked ? 'fill-red-500 text-red-500' : ''}`} />
+              <Heart className={`h-5 w-5 sm:h-6 sm:w-6 ${isPlaylistLiked ? 'fill-red-500 text-red-500' : ''}`} />
             </Button>
             
-            <Button variant="ghost" size="lg" className="rounded-full">
-              <Plus className="h-6 w-6" />
+            <Button variant="ghost" size="default" className="rounded-full">
+              <Plus className="h-5 w-5 sm:h-6 sm:w-6" />
             </Button>
             
-            <Button variant="ghost" size="lg" className="rounded-full">
-              <MoreHorizontal className="h-6 w-6" />
+            <Button variant="ghost" size="default" className="rounded-full">
+              <MoreHorizontal className="h-5 w-5 sm:h-6 sm:w-6" />
             </Button>
           </div>
         </div>

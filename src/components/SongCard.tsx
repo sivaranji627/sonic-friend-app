@@ -47,16 +47,16 @@ export const SongCard = ({
 
   return (
     <Card 
-      className="group p-4 shadow-card hover:shadow-glow transition-smooth cursor-pointer"
+      className="group p-3 sm:p-4 shadow-card hover:shadow-glow transition-smooth cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={() => !song.isPlaying && onPlay?.(song)}
     >
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3 sm:gap-4">
         {/* Album Art */}
         {showAlbumArt && (
           <div className="relative flex-shrink-0">
-            <div className="w-16 h-16 rounded-lg bg-gradient-primary flex items-center justify-center overflow-hidden">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg bg-gradient-primary flex items-center justify-center overflow-hidden">
               {song.albumArt ? (
                 <img 
                   src={song.albumArt} 
@@ -64,7 +64,7 @@ export const SongCard = ({
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <span className="text-2xl">🎵</span>
+                <span className="text-lg sm:text-2xl">🎵</span>
               )}
             </div>
             
@@ -77,12 +77,12 @@ export const SongCard = ({
                     e.stopPropagation();
                     handlePlayClick();
                   }}
-                  className="bg-white/90 hover:bg-white text-black w-8 h-8 rounded-full transition-bounce"
+                  className="bg-white/90 hover:bg-white text-black w-6 h-6 sm:w-8 sm:h-8 rounded-full transition-bounce"
                 >
                   {song.isPlaying ? (
-                    <Pause className="h-3 w-3" />
+                    <Pause className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
                   ) : (
-                    <Play className="h-3 w-3 ml-0.5" />
+                    <Play className="h-2.5 w-2.5 sm:h-3 sm:w-3 ml-0.5" />
                   )}
                 </Button>
               </div>
@@ -92,14 +92,14 @@ export const SongCard = ({
 
         {/* Song Info */}
         <div className="flex-1 min-w-0">
-          <h3 className="font-medium text-foreground truncate group-hover:text-primary transition-smooth">
+          <h3 className="font-medium text-sm sm:text-base text-foreground truncate group-hover:text-primary transition-smooth">
             {song.title}
           </h3>
-          <p className="text-sm text-muted-foreground truncate">{song.artist}</p>
+          <p className="text-xs sm:text-sm text-muted-foreground truncate">{song.artist}</p>
         </div>
 
         {/* Duration and Actions */}
-        <div className="flex items-center gap-2 text-muted-foreground">
+        <div className="flex items-center gap-1 sm:gap-2 text-muted-foreground">
           <Button
             variant="ghost"
             size="sm"
@@ -109,10 +109,10 @@ export const SongCard = ({
             }}
             className="opacity-0 group-hover:opacity-100 transition-smooth"
           >
-            <Heart className={`h-4 w-4 ${isLiked ? 'fill-red-500 text-red-500' : ''}`} />
+            <Heart className={`h-3 w-3 sm:h-4 sm:w-4 ${isLiked ? 'fill-red-500 text-red-500' : ''}`} />
           </Button>
           
-          <span className="text-sm min-w-[40px] text-right">
+          <span className="text-xs sm:text-sm min-w-[35px] sm:min-w-[40px] text-right">
             {formatDuration(song.duration)}
           </span>
           
@@ -122,7 +122,7 @@ export const SongCard = ({
             className="opacity-0 group-hover:opacity-100 transition-smooth"
             onClick={(e) => e.stopPropagation()}
           >
-            <MoreHorizontal className="h-4 w-4" />
+            <MoreHorizontal className="h-3 w-3 sm:h-4 sm:w-4" />
           </Button>
         </div>
       </div>
