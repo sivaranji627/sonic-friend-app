@@ -56,6 +56,9 @@ const Index = () => {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [likedSongs, setLikedSongs] = useState<string[]>([]);
+  const [userPlaylists, setUserPlaylists] = useState(samplePlaylists);
+  const [likedPlaylists, setLikedPlaylists] = useState<string[]>([]);
 
   const handleLoginStatusChange = (isLoggedIn: boolean, username?: string) => {
     setUserLoggedIn(isLoggedIn);
@@ -80,6 +83,32 @@ const Index = () => {
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
+  };
+
+  const handleLikeSong = (songId: string) => {
+    setLikedSongs(prev => 
+      prev.includes(songId) 
+        ? prev.filter(id => id !== songId)
+        : [...prev, songId]
+    );
+  };
+
+  const handleAddToPlaylist = (song: any, playlistTitle: string) => {
+    setUserPlaylists(prev => 
+      prev.map(playlist => 
+        playlist.title === playlistTitle
+          ? { ...playlist, songs: [...playlist.songs, song] }
+          : playlist
+      )
+    );
+  };
+
+  const handleLikePlaylist = (title: string) => {
+    setLikedPlaylists(prev => 
+      prev.includes(title) 
+        ? prev.filter(t => t !== title)
+        : [...prev, title]
+    );
   };
 
   const filteredSongs = songs.filter(song =>
@@ -143,6 +172,8 @@ const Index = () => {
                      song={song}
                      onPlay={handlePlaySong}
                      onTogglePlayPause={handleTogglePlayPause}
+                     isLiked={likedSongs.includes(song.id)}
+                     onLike={handleLikeSong}
                    />
                  ))}
                </div>
@@ -152,17 +183,21 @@ const Index = () => {
             <section>
               <h3 className="text-2xl font-semibold mb-6 text-foreground">Made for You ✨</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {samplePlaylists.map((playlist, index) => (
-                  <Playlist
-                    key={index}
-                    title={playlist.title}
-                    songs={playlist.songs}
-                    coverImage={playlist.coverImage}
-                    onPlaySong={handlePlaySong}
-                    onTogglePlayPause={handleTogglePlayPause}
-                    isCompact
-                  />
-                ))}
+                 {samplePlaylists.map((playlist, index) => (
+                   <Playlist
+                     key={index}
+                     title={playlist.title}
+                     songs={playlist.songs}
+                     coverImage={playlist.coverImage}
+                     onPlaySong={handlePlaySong}
+                     onTogglePlayPause={handleTogglePlayPause}
+                     isCompact
+                     likedSongs={likedSongs}
+                     onLikeSong={handleLikeSong}
+                     onLikePlaylist={handleLikePlaylist}
+                     isPlaylistLiked={likedPlaylists.includes(playlist.title)}
+                   />
+                 ))}
               </div>
             </section>
           </TabsContent>
@@ -171,16 +206,20 @@ const Index = () => {
             <section>
               <h3 className="text-2xl font-semibold mb-6 text-foreground">Your Playlists 🎵</h3>
               <div className="space-y-8">
-                {samplePlaylists.map((playlist, index) => (
-                  <Playlist
-                    key={index}
-                    title={playlist.title}
-                    songs={playlist.songs}
-                    coverImage={playlist.coverImage}
-                    onPlaySong={handlePlaySong}
-                    onTogglePlayPause={handleTogglePlayPause}
-                  />
-                ))}
+                 {samplePlaylists.map((playlist, index) => (
+                   <Playlist
+                     key={index}
+                     title={playlist.title}
+                     songs={playlist.songs}
+                     coverImage={playlist.coverImage}
+                     onPlaySong={handlePlaySong}
+                     onTogglePlayPause={handleTogglePlayPause}
+                     likedSongs={likedSongs}
+                     onLikeSong={handleLikeSong}
+                     onLikePlaylist={handleLikePlaylist}
+                     isPlaylistLiked={likedPlaylists.includes(playlist.title)}
+                   />
+                 ))}
               </div>
             </section>
           </TabsContent>

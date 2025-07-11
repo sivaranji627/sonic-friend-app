@@ -21,6 +21,10 @@ interface PlaylistProps {
   onPlaySong?: (song: Song) => void;
   onTogglePlayPause?: (song: Song) => void;
   isCompact?: boolean;
+  likedSongs?: string[];
+  onLikeSong?: (songId: string) => void;
+  onLikePlaylist?: (title: string) => void;
+  isPlaylistLiked?: boolean;
 }
 
 export const Playlist = ({ 
@@ -30,9 +34,12 @@ export const Playlist = ({
   totalDuration,
   onPlaySong, 
   onTogglePlayPause,
-  isCompact = false 
+  isCompact = false,
+  likedSongs = [],
+  onLikeSong,
+  onLikePlaylist,
+  isPlaylistLiked = false
 }: PlaylistProps) => {
-  const [isLiked, setIsLiked] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
 
   const formatTotalDuration = (seconds: number) => {
@@ -124,10 +131,10 @@ export const Playlist = ({
             <Button
               variant="ghost"
               size="lg"
-              onClick={() => setIsLiked(!isLiked)}
+              onClick={() => onLikePlaylist?.(title)}
               className="rounded-full"
             >
-              <Heart className={`h-6 w-6 ${isLiked ? 'fill-red-500 text-red-500' : ''}`} />
+              <Heart className={`h-6 w-6 ${isPlaylistLiked ? 'fill-red-500 text-red-500' : ''}`} />
             </Button>
             
             <Button variant="ghost" size="lg" className="rounded-full">
@@ -162,6 +169,8 @@ export const Playlist = ({
               onPlay={onPlaySong}
               onTogglePlayPause={onTogglePlayPause}
               showAlbumArt={false}
+              isLiked={likedSongs.includes(song.id)}
+              onLike={onLikeSong}
             />
           </div>
         ))}

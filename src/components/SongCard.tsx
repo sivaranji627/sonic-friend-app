@@ -17,10 +17,18 @@ interface SongCardProps {
   onPlay?: (song: Song) => void;
   onTogglePlayPause?: (song: Song) => void;
   showAlbumArt?: boolean;
+  isLiked?: boolean;
+  onLike?: (songId: string) => void;
 }
 
-export const SongCard = ({ song, onPlay, onTogglePlayPause, showAlbumArt = true }: SongCardProps) => {
-  const [isLiked, setIsLiked] = useState(false);
+export const SongCard = ({ 
+  song, 
+  onPlay, 
+  onTogglePlayPause, 
+  showAlbumArt = true, 
+  isLiked = false,
+  onLike 
+}: SongCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const formatDuration = (seconds: number) => {
@@ -97,7 +105,7 @@ export const SongCard = ({ song, onPlay, onTogglePlayPause, showAlbumArt = true 
             size="sm"
             onClick={(e) => {
               e.stopPropagation();
-              setIsLiked(!isLiked);
+              onLike?.(song.id);
             }}
             className="opacity-0 group-hover:opacity-100 transition-smooth"
           >
