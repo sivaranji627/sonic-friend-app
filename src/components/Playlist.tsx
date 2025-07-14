@@ -171,6 +171,13 @@ export const Playlist = ({
               showAlbumArt={false}
               isLiked={likedSongs.includes(song.id)}
               onLike={onLikeSong}
+              context="playlist"
+              onAddToPlaylist={(song) => {
+                console.log('Adding to playlist:', song.title);
+              }}
+              onRemoveFromPlaylist={(song) => {
+                console.log('Removing from playlist:', song.title);
+              }}
             />
           </div>
         ))}

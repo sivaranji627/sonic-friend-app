@@ -7,6 +7,9 @@ import { UserLogin } from "@/components/UserLogin";
 import { AIAssistant } from "@/components/AIAssistant";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { Heart, Settings } from "lucide-react";
+import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-music.jpg";
 
 // Sample data
@@ -133,7 +136,15 @@ const Index = () => {
               <SearchBar onSearch={handleSearch} />
             </div>
             
-            <UserLogin onLoginStatusChange={handleLoginStatusChange} />
+            <div className="flex items-center gap-2">
+              <Link to="/admin">
+                <Button variant="ghost" size="sm" className="hidden sm:flex">
+                  <Settings className="h-4 w-4 mr-2" />
+                  Admin
+                </Button>
+              </Link>
+              <UserLogin onLoginStatusChange={handleLoginStatusChange} />
+            </div>
           </div>
           
           {/* Mobile Search Bar */}
@@ -174,15 +185,22 @@ const Index = () => {
               <h3 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-foreground">Trending Now 🔥</h3>
                <div className="grid gap-4">
                  {(searchQuery ? filteredSongs : songs).map((song) => (
-                   <SongCard
-                     key={song.id}
-                     song={song}
-                     onPlay={handlePlaySong}
-                     onTogglePlayPause={handleTogglePlayPause}
-                     isLiked={likedSongs.includes(song.id)}
-                     onLike={handleLikeSong}
-                   />
-                 ))}
+                    <SongCard
+                      key={song.id}
+                      song={song}
+                      onPlay={handlePlaySong}
+                      onTogglePlayPause={handleTogglePlayPause}
+                      isLiked={likedSongs.includes(song.id)}
+                      onLike={handleLikeSong}
+                      context="library"
+                      onAddToLibrary={(song) => {
+                        console.log('Adding to library:', song.title);
+                      }}
+                      onRemoveFromLibrary={(song) => {
+                        console.log('Removing from library:', song.title);
+                      }}
+                    />
+                  ))}
                </div>
             </section>
 
@@ -234,6 +252,35 @@ const Index = () => {
           <TabsContent value="library" className="space-y-6 sm:space-y-8">
             <section>
               <h3 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-foreground">Your Music Library 📚</h3>
+              
+              {/* Liked Songs Section */}
+              {likedSongs.length > 0 && (
+                <div className="mb-8">
+                  <h4 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
+                    <Heart className="h-5 w-5 text-red-500" />
+                    Liked Songs ({likedSongs.length})
+                  </h4>
+                  <div className="space-y-4">
+                    {songs.filter(song => likedSongs.includes(song.id)).map(song => (
+                      <SongCard
+                        key={song.id}
+                        song={song}
+                        onPlay={handlePlaySong}
+                        onTogglePlayPause={handleTogglePlayPause}
+                        isLiked={true}
+                        onLike={handleLikeSong}
+                        context="liked"
+                        onAddToPlaylist={(song) => {
+                          // Add to first playlist as example
+                          handleAddToPlaylist(song, samplePlaylists[0].title);
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {/* Rest of Library */}
               <Card className="p-6 sm:p-8 text-center shadow-card">
                 <div className="space-y-3 sm:space-y-4">
                   <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-primary mx-auto flex items-center justify-center">

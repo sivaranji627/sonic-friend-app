@@ -1,6 +1,7 @@
-import { Play, Pause, Heart, MoreHorizontal } from "lucide-react";
+import { Play, Pause, Heart, MoreHorizontal, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
 
 interface Song {
@@ -19,6 +20,11 @@ interface SongCardProps {
   showAlbumArt?: boolean;
   isLiked?: boolean;
   onLike?: (songId: string) => void;
+  context?: 'playlist' | 'library' | 'liked' | 'admin';
+  onAddToPlaylist?: (song: Song) => void;
+  onRemoveFromPlaylist?: (song: Song) => void;
+  onAddToLibrary?: (song: Song) => void;
+  onRemoveFromLibrary?: (song: Song) => void;
 }
 
 export const SongCard = ({ 
@@ -27,7 +33,12 @@ export const SongCard = ({
   onTogglePlayPause, 
   showAlbumArt = true, 
   isLiked = false,
-  onLike 
+  onLike,
+  context = 'library',
+  onAddToPlaylist,
+  onRemoveFromPlaylist,
+  onAddToLibrary,
+  onRemoveFromLibrary
 }: SongCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -116,14 +127,68 @@ export const SongCard = ({
             {formatDuration(song.duration)}
           </span>
           
-          <Button
-            variant="ghost"
-            size="sm"
-            className="opacity-0 group-hover:opacity-100 transition-smooth"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <MoreHorizontal className="h-3 w-3 sm:h-4 sm:w-4" />
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="opacity-0 group-hover:opacity-100 transition-smooth"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <MoreHorizontal className="h-3 w-3 sm:h-4 sm:w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              {context === 'playlist' && (
+                <>
+                  <DropdownMenuItem onClick={() => onAddToPlaylist?.(song)}>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add to Playlist
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onRemoveFromPlaylist?.(song)}>
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Remove from Playlist
+                  </DropdownMenuItem>
+                </>
+              )}
+              {context === 'library' && (
+                <>
+                  <DropdownMenuItem onClick={() => onAddToLibrary?.(song)}>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add to Library
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onRemoveFromLibrary?.(song)}>
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Remove from Library
+                  </DropdownMenuItem>
+                </>
+              )}
+              {context === 'liked' && (
+                <>
+                  <DropdownMenuItem onClick={() => onAddToPlaylist?.(song)}>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add to Playlist
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onLike?.(song.id)}>
+                    <Heart className="h-4 w-4 mr-2" />
+                    Remove from Liked
+                  </DropdownMenuItem>
+                </>
+              )}
+              {context === 'admin' && (
+                <>
+                  <DropdownMenuItem onClick={() => onAddToPlaylist?.(song)}>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add to Playlist
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onLike?.(song.id)}>
+                    <Heart className="h-4 w-4 mr-2" />
+                    {isLiked ? 'Remove from Liked' : 'Add to Liked'}
+                  </DropdownMenuItem>
+                </>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </Card>
