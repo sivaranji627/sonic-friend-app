@@ -8,7 +8,7 @@ import { AIAssistant } from "@/components/AIAssistant";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Heart, Settings } from "lucide-react";
+import { Heart, Settings, Music, ListMusic } from "lucide-react";
 import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-music.jpg";
 
@@ -37,17 +37,17 @@ const sampleSongs = [
 const samplePlaylists = [
   {
     title: "Chill Vibes",
-    songs: sampleSongs.slice(0, 3),
+    songs: [],
     coverImage: undefined
   },
   {
     title: "Workout Energy",
-    songs: sampleSongs.slice(1),
+    songs: [],
     coverImage: undefined
   },
   {
     title: "Focus Flow",
-    songs: sampleSongs,
+    songs: [],
     coverImage: undefined
   }
 ];
@@ -182,7 +182,7 @@ const Index = () => {
           <TabsContent value="discover" className="space-y-6 sm:space-y-8">
             {/* Featured Songs */}
             <section>
-              <h3 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-foreground">Trending Now 🔥</h3>
+              <h3 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-foreground">Trending Now</h3>
                <div className="grid gap-4">
                  {(searchQuery ? filteredSongs : songs).map((song) => (
                     <SongCard
@@ -206,52 +206,41 @@ const Index = () => {
 
             {/* Quick Playlists */}
             <section>
-              <h3 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-foreground">Made for You ✨</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                 {samplePlaylists.map((playlist, index) => (
-                   <Playlist
-                     key={index}
-                     title={playlist.title}
-                     songs={playlist.songs}
-                     coverImage={playlist.coverImage}
-                     onPlaySong={handlePlaySong}
-                     onTogglePlayPause={handleTogglePlayPause}
-                     isCompact
-                     likedSongs={likedSongs}
-                     onLikeSong={handleLikeSong}
-                     onLikePlaylist={handleLikePlaylist}
-                     isPlaylistLiked={likedPlaylists.includes(playlist.title)}
-                   />
-                 ))}
-              </div>
+              <h3 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-foreground">Made for You</h3>
+              <Card className="p-6 sm:p-8 text-center shadow-card">
+                <div className="space-y-3 sm:space-y-4">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-primary mx-auto flex items-center justify-center">
+                    <Music className="h-6 w-6 sm:h-8 sm:w-8 text-primary-foreground" />
+                  </div>
+                  <h4 className="text-lg sm:text-xl font-medium text-foreground">No Personalized Playlists Yet</h4>
+                  <p className="text-sm sm:text-base text-muted-foreground">
+                    Start listening to music and we'll create personalized playlists just for you!
+                  </p>
+                </div>
+              </Card>
             </section>
           </TabsContent>
 
           <TabsContent value="playlists" className="space-y-6 sm:space-y-8">
             <section>
-              <h3 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-foreground">Your Playlists 🎵</h3>
-              <div className="space-y-6 sm:space-y-8">
-                 {samplePlaylists.map((playlist, index) => (
-                   <Playlist
-                     key={index}
-                     title={playlist.title}
-                     songs={playlist.songs}
-                     coverImage={playlist.coverImage}
-                     onPlaySong={handlePlaySong}
-                     onTogglePlayPause={handleTogglePlayPause}
-                     likedSongs={likedSongs}
-                     onLikeSong={handleLikeSong}
-                     onLikePlaylist={handleLikePlaylist}
-                     isPlaylistLiked={likedPlaylists.includes(playlist.title)}
-                   />
-                 ))}
-              </div>
+              <h3 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-foreground">Your Playlists</h3>
+              <Card className="p-6 sm:p-8 text-center shadow-card">
+                <div className="space-y-3 sm:space-y-4">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-primary mx-auto flex items-center justify-center">
+                    <ListMusic className="h-6 w-6 sm:h-8 sm:w-8 text-primary-foreground" />
+                  </div>
+                  <h4 className="text-lg sm:text-xl font-medium text-foreground">No Playlists Yet</h4>
+                  <p className="text-sm sm:text-base text-muted-foreground">
+                    Create your first playlist to organize your favorite songs!
+                  </p>
+                </div>
+              </Card>
             </section>
           </TabsContent>
 
           <TabsContent value="library" className="space-y-6 sm:space-y-8">
             <section>
-              <h3 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-foreground">Your Music Library 📚</h3>
+              <h3 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-foreground">Your Music Library</h3>
               
               {/* Liked Songs Section */}
               {likedSongs.length > 0 && (
@@ -284,7 +273,7 @@ const Index = () => {
               <Card className="p-6 sm:p-8 text-center shadow-card">
                 <div className="space-y-3 sm:space-y-4">
                   <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-primary mx-auto flex items-center justify-center">
-                    <span className="text-xl sm:text-2xl">🎼</span>
+                    <Music className="h-6 w-6 sm:h-8 sm:w-8 text-primary-foreground" />
                   </div>
                   <h4 className="text-lg sm:text-xl font-medium text-foreground">Start Building Your Library</h4>
                   <p className="text-sm sm:text-base text-muted-foreground">

@@ -1,73 +1,22 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
 import { SongCard } from "@/components/SongCard";
 import { useState } from "react";
-import { Users, Music, ListMusic, Heart, TrendingUp, Clock } from "lucide-react";
+import { Users, Music, ListMusic, Heart, TrendingUp, Clock, ArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
 
-// Sample data for admin dashboard
+// Admin dashboard data
 const adminStats = {
-  totalSongs: 150,
-  totalArtists: 45,
-  totalUsers: 1250,
-  totalPlaylists: 89
+  totalSongs: 0,
+  totalArtists: 0,
+  totalUsers: 0,
+  totalPlaylists: 0
 };
 
-const sampleSongs = [
-  {
-    id: "1",
-    title: "Golden Sparrow",
-    artist: "G.V. Prakash, Dhanush",
-    duration: 240,
-    albumArt: undefined,
-    isPlaying: false,
-    playCount: 1250
-  },
-  {
-    id: "2", 
-    title: "Thodu Vaanam",
-    artist: "Harris Jayaraj",
-    duration: 220,
-    albumArt: undefined,
-    isPlaying: false,
-    playCount: 980
-  }
-];
-
-const recentlyAddedSongs = [
-  {
-    id: "3",
-    title: "Nenjukulle",
-    artist: "A.R. Rahman",
-    duration: 265,
-    albumArt: undefined,
-    isPlaying: false,
-    addedDate: "2024-01-15"
-  },
-  {
-    id: "4",
-    title: "Uyire Uyire",
-    artist: "A.R. Rahman",
-    duration: 198,
-    albumArt: undefined,
-    isPlaying: false,
-    addedDate: "2024-01-14"
-  }
-];
-
 const Admin = () => {
-  const [currentTrack, setCurrentTrack] = useState(sampleSongs[0]);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [likedSongs, setLikedSongs] = useState<string[]>(['1']);
-
-  const handlePlaySong = (song: any) => {
-    setCurrentTrack(song);
-    setIsPlaying(true);
-  };
-
-  const handleTogglePlayPause = () => {
-    setIsPlaying(!isPlaying);
-  };
+  const [likedSongs, setLikedSongs] = useState<string[]>([]);
 
   const handleLikeSong = (songId: string) => {
     setLikedSongs(prev => 
@@ -98,6 +47,12 @@ const Admin = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
+              <Link to="/">
+                <Button variant="ghost" size="sm">
+                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  Back
+                </Button>
+              </Link>
               <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
                 <span className="text-lg font-bold text-primary-foreground">A</span>
               </div>
@@ -164,79 +119,33 @@ const Admin = () => {
           <TabsContent value="most-played" className="space-y-6">
             <section>
               <h3 className="text-xl font-semibold mb-6 text-foreground">Most Played Songs</h3>
-              <div className="space-y-4">
-                {sampleSongs.map((song, index) => (
-                  <div key={song.id} className="flex items-center gap-4">
-                    <Badge variant="outline" className="min-w-[40px] justify-center">
-                      #{index + 1}
-                    </Badge>
-                    <div className="flex-1">
-                      <SongCard
-                        song={song}
-                        onPlay={handlePlaySong}
-                        onTogglePlayPause={handleTogglePlayPause}
-                        isLiked={likedSongs.includes(song.id)}
-                        onLike={handleLikeSong}
-                        context="admin"
-                      />
-                    </div>
-                    <Badge variant="secondary">
-                      {song.playCount} plays
-                    </Badge>
-                  </div>
-                ))}
-              </div>
+              <Card className="p-8 text-center shadow-card">
+                <Music className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                <h4 className="text-lg font-medium text-foreground mb-2">No Songs Available</h4>
+                <p className="text-muted-foreground">No most played songs data available yet.</p>
+              </Card>
             </section>
           </TabsContent>
 
           <TabsContent value="recently-added" className="space-y-6">
             <section>
               <h3 className="text-xl font-semibold mb-6 text-foreground">Recently Added Songs</h3>
-              <div className="space-y-4">
-                {recentlyAddedSongs.map((song) => (
-                  <div key={song.id} className="flex items-center gap-4">
-                    <Badge variant="outline">
-                      {song.addedDate}
-                    </Badge>
-                    <div className="flex-1">
-                      <SongCard
-                        song={song}
-                        onPlay={handlePlaySong}
-                        onTogglePlayPause={handleTogglePlayPause}
-                        isLiked={likedSongs.includes(song.id)}
-                        onLike={handleLikeSong}
-                        context="admin"
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <Card className="p-8 text-center shadow-card">
+                <Clock className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                <h4 className="text-lg font-medium text-foreground mb-2">No Recent Songs</h4>
+                <p className="text-muted-foreground">No recently added songs available yet.</p>
+              </Card>
             </section>
           </TabsContent>
 
           <TabsContent value="liked-songs" className="space-y-6">
             <section>
               <h3 className="text-xl font-semibold mb-6 text-foreground">Liked Songs Category</h3>
-              <div className="space-y-4">
-                {sampleSongs.filter(song => likedSongs.includes(song.id)).map((song) => (
-                  <SongCard
-                    key={song.id}
-                    song={song}
-                    onPlay={handlePlaySong}
-                    onTogglePlayPause={handleTogglePlayPause}
-                    isLiked={true}
-                    onLike={handleLikeSong}
-                    context="liked"
-                  />
-                ))}
-                {likedSongs.length === 0 && (
-                  <Card className="p-8 text-center shadow-card">
-                    <Heart className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                    <h4 className="text-lg font-medium text-foreground mb-2">No Liked Songs</h4>
-                    <p className="text-muted-foreground">Users haven't liked any songs yet.</p>
-                  </Card>
-                )}
-              </div>
+              <Card className="p-8 text-center shadow-card">
+                <Heart className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                <h4 className="text-lg font-medium text-foreground mb-2">No Liked Songs</h4>
+                <p className="text-muted-foreground">Users haven't liked any songs yet.</p>
+              </Card>
             </section>
           </TabsContent>
 
