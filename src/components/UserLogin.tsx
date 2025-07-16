@@ -11,7 +11,7 @@ interface UserLoginProps {
 }
 
 export const UserLogin = ({ onLoginStatusChange }: UserLoginProps) => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState("");
@@ -21,34 +21,44 @@ export const UserLogin = ({ onLoginStatusChange }: UserLoginProps) => {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!username.trim() || !password.trim()) {
+    if (!email.trim() || !password.trim()) {
       toast({
         title: "Login Failed",
-        description: "Please enter both username and password",
+        description: "Please enter both email and password",
         variant: "destructive",
       });
       return;
     }
 
-    // Simple validation - in real app, this would be API call
-    if (username.length >= 3 && password.length >= 4) {
+    // Validate specific credentials
+    const validCredentials = [
+      { email: "admin@melodify.com", password: "admin123" },
+      { email: "user@melodify.com", password: "user123" },
+      { email: "demo@melodify.com", password: "demo123" }
+    ];
+
+    const isValidUser = validCredentials.find(
+      cred => cred.email === email && cred.password === password
+    );
+
+    if (isValidUser) {
       setIsLoggedIn(true);
-      setCurrentUser(username);
+      setCurrentUser(email);
       setIsDialogOpen(false);
-      onLoginStatusChange?.(true, username);
+      onLoginStatusChange?.(true, email);
       
       toast({
         title: "Welcome! 🎵",
-        description: `Successfully logged in as ${username}`,
+        description: `Successfully logged in as ${email}`,
       });
       
       // Clear form
-      setUsername("");
+      setEmail("");
       setPassword("");
     } else {
       toast({
         title: "Login Failed",
-        description: "Username must be at least 3 characters and password at least 4 characters",
+        description: "Invalid email or password",
         variant: "destructive",
       });
     }
@@ -103,15 +113,15 @@ export const UserLogin = ({ onLoginStatusChange }: UserLoginProps) => {
         
         <form onSubmit={handleLogin} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="username" className="text-sm font-medium">Username</Label>
+            <Label htmlFor="email" className="text-sm font-medium">Email</Label>
             <div className="relative">
               <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
-                id="username"
-                type="text"
-                placeholder="Enter username (min 3 chars)"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                id="email"
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="pl-10"
                 required
               />
@@ -125,7 +135,7 @@ export const UserLogin = ({ onLoginStatusChange }: UserLoginProps) => {
               <Input
                 id="password"
                 type="password"
-                placeholder="Enter password (min 4 chars)"
+                placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="pl-10"
@@ -141,9 +151,12 @@ export const UserLogin = ({ onLoginStatusChange }: UserLoginProps) => {
             Login
           </Button>
           
-          <p className="text-xs text-muted-foreground text-center">
-            Demo: Any username (3+ chars) and password (4+ chars)
-          </p>
+          <div className="text-xs text-muted-foreground text-center space-y-1">
+            <p>Demo Accounts:</p>
+            <p>admin@melodify.com / admin123</p>
+            <p>user@melodify.com / user123</p>
+            <p>demo@melodify.com / demo123</p>
+          </div>
         </form>
       </DialogContent>
     </Dialog>
